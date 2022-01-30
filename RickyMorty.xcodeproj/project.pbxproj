@@ -16,6 +16,9 @@
 		53BAF40C27A5BF48004CE52D /* RickyMortyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BAF40B27A5BF48004CE52D /* RickyMortyTests.swift */; };
 		53BAF41627A5BF48004CE52D /* RickyMortyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BAF41527A5BF48004CE52D /* RickyMortyUITests.swift */; };
 		53BAF41827A5BF48004CE52D /* RickyMortyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BAF41727A5BF48004CE52D /* RickyMortyUITestsLaunchTests.swift */; };
+		53BAF42627A5C0D8004CE52D /* RMListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BAF42527A5C0D8004CE52D /* RMListViewController.swift */; };
+		53BAF42827A5C10F004CE52D /* RMListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BAF42727A5C10F004CE52D /* RMListViewModel.swift */; };
+		53BAF42C27A5FCAD004CE52D /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BAF42B27A5FCAD004CE52D /* API.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		53BAF41127A5BF48004CE52D /* RickyMortyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RickyMortyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		53BAF41527A5BF48004CE52D /* RickyMortyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickyMortyUITests.swift; sourceTree = "<group>"; };
 		53BAF41727A5BF48004CE52D /* RickyMortyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickyMortyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		53BAF42527A5C0D8004CE52D /* RMListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMListViewController.swift; sourceTree = "<group>"; };
+		53BAF42727A5C10F004CE52D /* RMListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMListViewModel.swift; sourceTree = "<group>"; };
+		53BAF42B27A5FCAD004CE52D /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,8 @@
 		53BAF3F327A5BF43004CE52D /* RickyMorty */ = {
 			isa = PBXGroup;
 			children = (
+				53BAF42A27A5FC95004CE52D /* API */,
+				53BAF42427A5C0B0004CE52D /* ViewControllers */,
 				53BAF3F427A5BF43004CE52D /* AppDelegate.swift */,
 				53BAF3F627A5BF43004CE52D /* SceneDelegate.swift */,
 				53BAF3F827A5BF43004CE52D /* ViewController.swift */,
@@ -125,6 +133,23 @@
 				53BAF41727A5BF48004CE52D /* RickyMortyUITestsLaunchTests.swift */,
 			);
 			path = RickyMortyUITests;
+			sourceTree = "<group>";
+		};
+		53BAF42427A5C0B0004CE52D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				53BAF42527A5C0D8004CE52D /* RMListViewController.swift */,
+				53BAF42727A5C10F004CE52D /* RMListViewModel.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		53BAF42A27A5FC95004CE52D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				53BAF42B27A5FCAD004CE52D /* API.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,9 +283,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53BAF42C27A5FCAD004CE52D /* API.swift in Sources */,
 				53BAF3F927A5BF43004CE52D /* ViewController.swift in Sources */,
+				53BAF42827A5C10F004CE52D /* RMListViewModel.swift in Sources */,
 				53BAF3F527A5BF43004CE52D /* AppDelegate.swift in Sources */,
 				53BAF3F727A5BF43004CE52D /* SceneDelegate.swift in Sources */,
+				53BAF42627A5C0D8004CE52D /* RMListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
