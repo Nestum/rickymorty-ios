@@ -9,6 +9,12 @@ import UIKit
 
 class RMListViewController: UIViewController {
     
+    // MARK: - Enums
+    
+    private enum Section {
+        case main
+    }
+    
     // MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     
@@ -36,17 +42,10 @@ class RMListViewController: UIViewController {
         snapShot.appendItems(viewModel.characters, toSection: .main)
         
         tableViewDataSource.apply(snapShot, animatingDifferences: true)
-        
     }
     
     private func setupUI() {
         tableView.register(UINib.init(nibName: "CharacterCell", bundle: nil), forCellReuseIdentifier: "CharacterCell")
-        tableView.estimatedRowHeight = 154
-        tableView.rowHeight = UITableView.automaticDimension
-    }
-    
-    enum Section {
-        case main
     }
     
     private lazy var tableViewDataSource: UITableViewDiffableDataSource<Section, Character> = {
@@ -55,6 +54,7 @@ class RMListViewController: UIViewController {
                 return UITableViewCell()
             }
             cell.configure(character: character)
+            self.viewModel.fetchMoreIfNeeded(currentRow: indexPath.row)
             return cell
         }
         return dataSource

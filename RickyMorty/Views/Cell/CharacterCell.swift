@@ -48,6 +48,7 @@ class CharacterCell: UITableViewCell {
             case .success(let data):
                 self.characterPicture.image = UIImage(data: data)
             case .failure(let error):
+                // add default image
                 debugPrint("We got a failure trying to get the users. The error we got was: \(error.localizedDescription)")
             }
         }
