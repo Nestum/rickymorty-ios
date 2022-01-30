@@ -20,32 +20,29 @@ class RMListViewController: UIViewController {
     
     private lazy var viewModel: RMListViewModel = {
         return RMListViewModel(
-            receivedDataHandler: { data in
-                self.configureSnapshot()
+            dataChangedHandler: { data in
+                self.configureSnapshot(characters: data)
             }, receivedErrorHandler: { error in
-                print("got error")
+                self.showErrorAlert(message: error.localizedDescription)
             })
     }()
+    
+    private let searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
-        configureSnapshot()
+        setupController()
         viewModel.fetchCharacters()
     }
     
-    func configureSnapshot() {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, Character>()
-        
-        snapShot.appendSections([.main])
-        snapShot.appendItems(viewModel.characters, toSection: .main)
-        
-        tableViewDataSource.apply(snapShot, animatingDifferences: true)
-    }
-    
-    private func setupUI() {
+    private func setupController() {
         tableView.register(UINib.init(nibName: "CharacterCell", bundle: nil), forCellReuseIdentifier: "CharacterCell")
+        
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Search for location"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     private lazy var tableViewDataSource: UITableViewDiffableDataSource<Section, Character> = {
@@ -60,5 +57,31 @@ class RMListViewController: UIViewController {
         return dataSource
     }()
     
-
+    private func configureSnapshot(characters: [Character]) {
+        var snapShot = NSDiffableDataSourceSnapshot<Section, Character>()
+        snapShot.appendSections([.main])
+        snapShot.appendItems(characters, toSection: .main)
+        
+        tableViewDataSource.apply(snapShot, animatingDifferences: true)
+    }
+    
+    func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: "Something happened: \(message)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
+
+
+
+extension RMListViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {
+            return
+        }
+        viewModel.filterResults(filter: text)
+    }
+    
+}
+

@@ -7,21 +7,22 @@ import UIKit
 
 class RMListViewModel {
     
-    typealias ReceivedDataHandler = (_ value: Characters) -> Void
-    typealias ReceivedErrorHandler = (_ value: NetworkManager.ManagerErrors) -> Void
+    typealias DataChangedHandler = (_ value: [Character]) -> Void
+    typealias ReceivedErrorHandler = (_ value: Error) -> Void
 
-    private var receivedDataHandler: ReceivedDataHandler
+    private var dataChangedHandler: DataChangedHandler
     private var receivedErrorHandler: ReceivedErrorHandler!
     private let networkManager: NetworkManager
     private var isFetching: Bool = false
     
-    var characters: [Character] = []
+    var charactersArray: [Character] = []
+    var filtered: [Character] = []
 
     init(networkManager: NetworkManager = NetworkManager(),
-         receivedDataHandler: @escaping ReceivedDataHandler,
+         dataChangedHandler: @escaping DataChangedHandler,
          receivedErrorHandler: @escaping ReceivedErrorHandler) {
         self.networkManager = networkManager
-        self.receivedDataHandler = receivedDataHandler
+        self.dataChangedHandler = dataChangedHandler
         self.receivedErrorHandler = receivedErrorHandler
     }
     
@@ -36,11 +37,11 @@ class RMListViewModel {
             
             switch result {
             case .success(let characters):
-                self.characters.append(contentsOf: characters.results)
+                self.charactersArray.append(contentsOf: characters.results)
                 self.currentPage = characters.info
-                self.receivedDataHandler(characters)
+                self.dataChangedHandler(self.charactersArray)
             case .failure(let error):
-                debugPrint("We got a failure trying to get the users. The error we got was: \(error.localizedDescription)")
+                self.receivedErrorHandler(error)
             }
         }
     }
@@ -49,11 +50,21 @@ class RMListViewModel {
         guard isFetching == false else {
             return
         }
-        if characters.count - currentRow == 5 {
+        if charactersArray.count - currentRow == 5 {
             if let nextFetchURL = URL(string: currentPage.next!) {
                 isFetching = true
                 fetchCharacters(url: nextFetchURL)
             }
         }
+    }
+    
+    func filterResults(filter: String) {
+        if filter != "" {
+            filtered = charactersArray.filter { $0.location.name.contains(filter) }
+        } else {
+            filtered = charactersArray
+        }
+        
+        dataChangedHandler(filtered)
     }
 }

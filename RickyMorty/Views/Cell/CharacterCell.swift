@@ -35,7 +35,7 @@ class CharacterCell: UITableViewCell {
         genderLabel.text = character.gender
         speciesLabel.text = character.species
         statusLabel.text = character.status
-        episodesLabel.text = "Number of episodes: \(character.episode.count)"
+        episodesLabel.text = "Location: \(character.location.name)"
         
         if let imageURL = URL(string: character.image) {
             fetchImage(url: imageURL)
@@ -49,9 +49,13 @@ class CharacterCell: UITableViewCell {
                 self.characterPicture.image = UIImage(data: data)
             case .failure(let error):
                 // add default image
-                debugPrint("We got a failure trying to get the users. The error we got was: \(error.localizedDescription)")
+                debugPrint("We got a failure trying to get the picture. The error we got was: \(error.localizedDescription)")
             }
         }
+    }
+    
+    override func prepareForReuse() {
+        characterPicture.image = nil
     }
     
 }
