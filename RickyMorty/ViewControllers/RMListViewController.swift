@@ -15,7 +15,7 @@ class RMListViewController: UIViewController {
     private lazy var viewModel: RMListViewModel = {
         return RMListViewModel(
             receivedDataHandler: { data in
-                print("receivedData: \(data)")
+                self.configureSnapshot()
             }, receivedErrorHandler: { error in
                 print("got error")
             })
@@ -25,15 +25,40 @@ class RMListViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
+        configureSnapshot()
         viewModel.fetchCharacters()
     }
     
-    private func setupUI() {
+    func configureSnapshot() {
+        var snapShot = NSDiffableDataSourceSnapshot<Section, Character>()
         
+        snapShot.appendSections([.main])
+        snapShot.appendItems(viewModel.characters, toSection: .main)
         
+        tableViewDataSource.apply(snapShot, animatingDifferences: true)
         
     }
     
+    private func setupUI() {
+        tableView.register(UINib.init(nibName: "CharacterCell", bundle: nil), forCellReuseIdentifier: "CharacterCell")
+        tableView.estimatedRowHeight = 154
+        tableView.rowHeight = UITableView.automaticDimension
+    }
     
+    enum Section {
+        case main
+    }
     
+    private lazy var tableViewDataSource: UITableViewDiffableDataSource<Section, Character> = {
+        let dataSource = UITableViewDiffableDataSource<Section, Character>(tableView: tableView) { tableView, indexPath, character in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell") as? CharacterCell else {
+                return UITableViewCell()
+            }
+            cell.configure(character: character)
+            return cell
+        }
+        return dataSource
+    }()
+    
+
 }

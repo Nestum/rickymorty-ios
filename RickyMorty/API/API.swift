@@ -60,6 +60,10 @@ class NetworkManager {
 
             // Now that all our prerequisites are fullfilled, we can take our data and try to translate it to our generic type of T.
             guard let data = data else { return }
+            if let data = data as? T {
+                completionOnMain(.success(data))
+                return
+            }
             do {
                 let users = try JSONDecoder().decode(T.self, from: data)
                 completionOnMain(.success(users))

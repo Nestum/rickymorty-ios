@@ -13,6 +13,8 @@ class RMListViewModel {
     private var receivedDataHandler: ReceivedDataHandler
     private var receivedErrorHandler: ReceivedErrorHandler!
     private let networkManager: NetworkManager
+    
+    var characters: [Character] = []
 
     init(networkManager: NetworkManager = NetworkManager(),
          receivedDataHandler: @escaping ReceivedDataHandler,
@@ -28,12 +30,12 @@ class RMListViewModel {
         networkManager.request(fromURL: url) { (result: Result<Characters, Error>) in
             switch result {
             case .success(let characters):
+                self.characters.append(contentsOf: characters.results)
                 self.receivedDataHandler(characters)
             case .failure(let error):
                 debugPrint("We got a failure trying to get the users. The error we got was: \(error.localizedDescription)")
             }
         }
-        
-
+    
     }
 }

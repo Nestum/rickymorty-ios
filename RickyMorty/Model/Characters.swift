@@ -5,5 +5,5 @@
 
 struct Characters: Codable, Equatable {
     let info: Info
-    let results: [Character]
+    let results: [Character]   // rename this
 }

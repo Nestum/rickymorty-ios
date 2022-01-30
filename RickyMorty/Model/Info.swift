@@ -4,7 +4,6 @@
 //
 
 struct Info: Codable, Equatable {
-    
     let count: Int
     let pages: Int
     let next: String?

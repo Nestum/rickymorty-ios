@@ -3,7 +3,7 @@
 //  Created by Marco Castanheira on 30/01/2022.
 //
 
-struct Character: Codable, Equatable {
+struct Character: Codable, Hashable {
     let id: Int
     let name: String
     let status: String // create enum
