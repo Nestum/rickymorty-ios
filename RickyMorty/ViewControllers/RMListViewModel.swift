@@ -24,8 +24,8 @@ class RMListViewModel {
         
         networkManager.request(fromURL: url) { (result: Result<Characters, Error>) in
             switch result {
-            case .success(let string):
-                debugPrint("the string: \(string)")
+            case .success(let characters):
+                debugPrint("the string: \(characters)")
             case .failure(let error):
                 debugPrint("We got a failure trying to get the users. The error we got was: \(error.localizedDescription)")
             }
@@ -36,19 +36,3 @@ class RMListViewModel {
     
 }
 
-
-struct Characters: Codable {
-    
-    let info: Info
-    
-}
-
-
-struct Info: Codable {
-    
-    let count: Int
-    let pages: Int
-    let next: String?
-    let prev: String?
-    
-}
