@@ -15,14 +15,29 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Idm-U3-0Fn">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Idm-U3-0Fn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Kzw-ob-cLt"/>
+                            <constraint firstItem="Idm-U3-0Fn" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="dcr-Qh-eCc"/>
+                            <constraint firstItem="Idm-U3-0Fn" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="flc-EE-TnX"/>
+                            <constraint firstAttribute="bottom" secondItem="Idm-U3-0Fn" secondAttribute="bottom" id="xfC-MT-JQb"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5wW-18-HbK"/>
+                    <connections>
+                        <outlet property="tableView" destination="Idm-U3-0Fn" id="Qva-sx-ZCh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="118.52678571428571"/>
+            <point key="canvasLocation" x="1061" y="119"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vBc-Gl-Vfc">

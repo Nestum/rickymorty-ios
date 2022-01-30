@@ -3,7 +3,7 @@
 //  Created by Marco Castanheira on 30/01/2022.
 //
 
-struct Location: Codable {
+struct Location: Codable, Equatable {
     let name: String
     let url: String
 }

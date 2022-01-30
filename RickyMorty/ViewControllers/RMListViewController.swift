@@ -8,12 +8,32 @@
 import UIKit
 
 class RMListViewController: UIViewController {
+    
+    // MARK: - Outlets
+    @IBOutlet weak var tableView: UITableView!
+    
+    private lazy var viewModel: RMListViewModel = {
+        return RMListViewModel(
+            receivedDataHandler: { data in
+                print("receivedData: \(data)")
+            }, receivedErrorHandler: { error in
+                print("got error")
+            })
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
-        let viewModel = RMListViewModel()
-        viewModel.fetchEpisodeList()
+        
+        setupUI()
+        viewModel.fetchCharacters()
     }
+    
+    private func setupUI() {
+        
+        
+        
+    }
+    
+    
+    
 }
