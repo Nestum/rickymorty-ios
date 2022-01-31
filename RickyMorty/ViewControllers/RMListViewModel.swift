@@ -23,6 +23,7 @@ class RMListViewModel {
     
     var charactersArray: [Character] = []
     var filtered: [Character] = []
+    var favorites: [Character] = []
 
     init(networkManager: NetworkManager = NetworkManager(),
          dataChangedHandler: @escaping DataChangedHandler,
@@ -104,6 +105,4 @@ class RMListViewModel {
         }
         return character
     }
-    
-    var favorites: [Character] = []
 }

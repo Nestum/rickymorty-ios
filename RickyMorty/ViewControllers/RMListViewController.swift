@@ -68,6 +68,7 @@ class RMListViewController: UIViewController {
         tableViewDataSource.apply(snapShot, animatingDifferences: true)
     }
     
+    /// reloads a single row
     private func reloadItem(character: Character) {
         var currentSnapshot = tableViewDataSource.snapshot()
         currentSnapshot.reloadItems([character])
