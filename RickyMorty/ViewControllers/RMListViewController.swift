@@ -45,6 +45,7 @@ class RMListViewController: UIViewController {
         definesPresentationContext = true
     }
     
+    /// setup daffable datasources for table view, it replaces the tradicional
     private lazy var tableViewDataSource: UITableViewDiffableDataSource<Section, Character> = {
         let dataSource = UITableViewDiffableDataSource<Section, Character>(tableView: tableView) { tableView, indexPath, character in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell") as? CharacterCell else {
@@ -57,6 +58,7 @@ class RMListViewController: UIViewController {
         return dataSource
     }()
     
+    /// configures the state of the data n the tableview, and applies it
     private func configureSnapshot(characters: [Character]) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, Character>()
         snapShot.appendSections([.main])
@@ -65,6 +67,7 @@ class RMListViewController: UIViewController {
         tableViewDataSource.apply(snapShot, animatingDifferences: true)
     }
     
+    /// shows an error message in a alert controller
     func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: "Something happened: \(message)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -72,16 +75,14 @@ class RMListViewController: UIViewController {
     }
 }
 
-
-
 extension RMListViewController: UISearchResultsUpdating {
     
+    /// delegate method that returns whats is types in the search box
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else {
             return
         }
         viewModel.filterResults(filter: text)
     }
-    
 }
 

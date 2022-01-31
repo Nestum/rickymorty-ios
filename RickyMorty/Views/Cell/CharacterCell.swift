@@ -21,13 +21,8 @@ class CharacterCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
+        selectionStyle = .none
     }
     
     func configure(character: Character) {
@@ -42,18 +37,19 @@ class CharacterCell: UITableViewCell {
         }
     }
     
+    /// fetches an imagem given an URL
     func fetchImage(url: URL) {
         networkManager.request(fromURL: url) {  (result: Result<Data, Error>) in
             switch result {
             case .success(let data):
                 self.characterPicture.image = UIImage(data: data)
-            case .failure(let error):
-                // add default image
-                debugPrint("We got a failure trying to get the picture. The error we got was: \(error.localizedDescription)")
+            case .failure:
+                self.characterPicture.image = UIImage(named: "noImage")
             }
         }
     }
     
+    /// when the cell is reused, will clean the character picture
     override func prepareForReuse() {
         characterPicture.image = nil
     }

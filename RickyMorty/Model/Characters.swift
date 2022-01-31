@@ -5,5 +5,12 @@
 
 struct Characters: Codable, Equatable {
     let info: Info
-    let results: [Character]   // rename this
+    let characterArray: [Character]   // rename this
+}
+
+extension Characters {
+    private enum CodingKeys: String, CodingKey {
+        case info
+        case characterArray = "results"
+    }
 }

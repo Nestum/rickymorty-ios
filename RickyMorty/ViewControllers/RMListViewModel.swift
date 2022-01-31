@@ -7,13 +7,18 @@ import UIKit
 
 class RMListViewModel {
     
+    /*
+     handlers to store the callbacks
+     */
     typealias DataChangedHandler = (_ value: [Character]) -> Void
     typealias ReceivedErrorHandler = (_ value: Error) -> Void
-
     private var dataChangedHandler: DataChangedHandler
     private var receivedErrorHandler: ReceivedErrorHandler!
+    
     private let networkManager: NetworkManager
     private var isFetching: Bool = false
+    
+    static let missingRowsToFetch = 5
     
     var charactersArray: [Character] = []
     var filtered: [Character] = []
@@ -29,6 +34,7 @@ class RMListViewModel {
     var currentPage: Info!
     static let inicialURL:URL = URL(string: "https://rickandmortyapi.com/api/character")!
     
+    /// if no URL is provided, it uses the default one to start the fetch of data
     func fetchCharacters(url: URL = inicialURL) {
         networkManager.request(fromURL: url) { (result: Result<Characters, Error>) in
             defer {
@@ -37,7 +43,7 @@ class RMListViewModel {
             
             switch result {
             case .success(let characters):
-                self.charactersArray.append(contentsOf: characters.results)
+                self.charactersArray.append(contentsOf: characters.characterArray)
                 self.currentPage = characters.info
                 self.dataChangedHandler(self.charactersArray)
             case .failure(let error):
@@ -46,11 +52,12 @@ class RMListViewModel {
         }
     }
     
+    /// receives the current rendered row position and if it's matches the condition to fetch more data, will fetch more using the next url to fetch data
     func fetchMoreIfNeeded(currentRow: Int) {
         guard isFetching == false else {
             return
         }
-        if charactersArray.count - currentRow == 5 {
+        if charactersArray.count - currentRow == Self.missingRowsToFetch {
             if let nextFetchURL = URL(string: currentPage.next!) {
                 isFetching = true
                 fetchCharacters(url: nextFetchURL)
@@ -58,13 +65,16 @@ class RMListViewModel {
         }
     }
     
+    /// will handles the text typed in the searchbar. If its empty will clean the filter
     func filterResults(filter: String) {
-        if filter != "" {
+        defer {
+            dataChangedHandler(filtered)
+        }
+        
+        if !filter.isEmpty {
             filtered = charactersArray.filter { $0.location.name.contains(filter) }
         } else {
             filtered = charactersArray
         }
-        
-        dataChangedHandler(filtered)
     }
 }
