@@ -38,6 +38,7 @@ class RMListViewController: UIViewController {
     
     private func setupController() {
         tableView.register(UINib.init(nibName: "CharacterCell", bundle: nil), forCellReuseIdentifier: "CharacterCell")
+        tableView.delegate = self
         
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Search for location"
@@ -51,7 +52,7 @@ class RMListViewController: UIViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell") as? CharacterCell else {
                 return UITableViewCell()
             }
-            cell.configure(character: character)
+            cell.configure(character: character, isFavourite: self.viewModel.isFavourite(character: character))
             self.viewModel.fetchMoreIfNeeded(currentRow: indexPath.row)
             return cell
         }
@@ -65,6 +66,12 @@ class RMListViewController: UIViewController {
         snapShot.appendItems(characters, toSection: .main)
         
         tableViewDataSource.apply(snapShot, animatingDifferences: true)
+    }
+    
+    private func reloadItem(character: Character) {
+        var currentSnapshot = tableViewDataSource.snapshot()
+        currentSnapshot.reloadItems([character])
+        tableViewDataSource.apply(currentSnapshot)
     }
     
     /// shows an error message in a alert controller
@@ -83,6 +90,13 @@ extension RMListViewController: UISearchResultsUpdating {
             return
         }
         viewModel.filterResults(filter: text)
+    }
+}
+
+extension RMListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = viewModel.toggleFavorite(index: indexPath.row)
+        reloadItem(character: item)
     }
 }
 

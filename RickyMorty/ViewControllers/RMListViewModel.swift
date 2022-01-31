@@ -19,6 +19,7 @@ class RMListViewModel {
     private var isFetching: Bool = false
     
     static let missingRowsToFetch = 5
+    var isFiltering = false
     
     var charactersArray: [Character] = []
     var filtered: [Character] = []
@@ -68,6 +69,7 @@ class RMListViewModel {
     /// will handles the text typed in the searchbar. If its empty will clean the filter
     func filterResults(filter: String) {
         defer {
+            isFiltering = filtered.count != charactersArray.count
             dataChangedHandler(filtered)
         }
         
@@ -77,4 +79,31 @@ class RMListViewModel {
             filtered = charactersArray
         }
     }
+    
+    /// checks if a character is in the favourits
+    func isFavourite(character: Character) -> Bool {
+        return favorites.contains(character)
+    }
+    
+    /// adds a character to favourits if it does not exist, and removes it if exists
+    /// also returns the character so we can reload the cell
+    /// it takes into consideration if there's an active filter
+    func toggleFavorite(index: Int) -> Character {
+        var itemArray: [Character] = []
+        if isFiltering {
+            itemArray = filtered
+        } else {
+            itemArray = charactersArray
+        }
+        
+        let character = itemArray[index]
+        if favorites.contains(character) {
+            favorites = favorites.filter { $0 != character }
+        } else {
+            favorites.append(character)
+        }
+        return character
+    }
+    
+    var favorites: [Character] = []
 }

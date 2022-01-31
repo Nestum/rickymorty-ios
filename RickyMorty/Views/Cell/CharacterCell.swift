@@ -25,7 +25,7 @@ class CharacterCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    func configure(character: Character) {
+    func configure(character: Character, isFavourite: Bool = false) {
         nameLabel.text = character.name
         genderLabel.text = character.gender
         speciesLabel.text = character.species
@@ -34,6 +34,12 @@ class CharacterCell: UITableViewCell {
         
         if let imageURL = URL(string: character.image) {
             fetchImage(url: imageURL)
+        }
+        
+        if isFavourite {
+            backgroundColor = .red
+        } else {
+            backgroundColor = .white
         }
     }
     
